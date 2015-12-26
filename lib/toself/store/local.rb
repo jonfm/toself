@@ -1,4 +1,5 @@
 require 'json'
+require 'date'
 
 class Toself
   class Store
@@ -44,14 +45,14 @@ class Toself
       def log(params)
         @log[params.key] ||= []
         @log[params.key][0] ||= []
-        @log[params.key].last.push({at: params.at, msg: params.msg })
+        @log[params.key].last.push({"at" =>  params.at, msg: params.msg })
       end
       def elapsed(key)
         log = @log[key]
         elapsed = 0
         log.each do |period|
           if period.length > 0
-            elapsed += period.last[:at] - period.first[:at]
+            elapsed += DateTime.parse(period.last["at"].to_s) - DateTime.parse(period.first["at"].to_s)
           end
         end
         elapsed

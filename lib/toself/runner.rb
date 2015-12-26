@@ -5,23 +5,33 @@ require 'toself/params'
 require 'toself/store/local'
 
 class Toself
-  class Runner < Thor
-    @toself = Toself::Service.new(Toself::Store::Local.new('data.json'))
-    
+  class Runner < Thor 
     desc "start", "start a task"
     def start(key, *msg)
       puts "start #{key} #{msg}"
-      @toself.start(ToSelf)
+      toself = Toself::Service.new(Toself::Store::Local.new('data.json'))
+      toself.start(Toself::Params.new(key: key, msg: msg.join(' ')))
     end
 
     desc "stop", "stop a task (temporarily)"
     def stop(key, *msg) 
       puts "stop #{key} #{msg}"
+      toself = Toself::Service.new(Toself::Store::Local.new('data.json'))
+      toself.stop(Toself::Params.new(key: key, msg: msg.join(' ')))
     end
 
-    desc "finish", "finish a task (finally)"
-    def finish(key, *msg)
-      puts "finish #{key} #{msg}"
+    desc "stop", "stop a task (temporarily)"
+    def log(key, *msg) 
+      puts "stop #{key} #{msg}"
+      toself = Toself::Service.new(Toself::Store::Local.new('data.json'))
+      toself.log(Toself::Params.new(key: key, msg: msg.join(' ')))
+    end
+
+    desc "elapsed", "echo minutes spent on task"
+    def elapsed(key)
+      toself = Toself::Service.new(Toself::Store::Local.new('data.json'))
+      elapsed = toself.elapsed(Toself::Params.new(key: key))
+      puts "elapsed #{key} #{elapsed} min (#{(elapsed / 60)} hours}"
     end
   end
 end
