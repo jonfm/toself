@@ -1,15 +1,15 @@
-# toself - micro journaling for geeks
+# toself - pet project for micro-journaling & time tracking
+
+## Disclaimer
+
+This is just a bit of fun to revive my ruby skills and allow me to do some time tracking.
 
 ## Synopsis
 ```
-self start videoblog today we decided to write a videoblog # starts the clock for the videoblog
-self log videoblog something I did # journal entry for the videolog task
-self stop videoblog final post, now I am switching to 3d # stop work on the videoblog task
-self elapsed videoblog # displays the time spent on videoblog
-
-self log videoblog
-xyz123 started videoblog
-self edit <id>
+toself start videoblog today we decided to write a videoblog # starts the clock for the videoblog
+toself log videoblog something I did # journal entry for the videolog task
+toself stop videoblog final post, now I am switching to 3d # stop work on the videoblog task
+toself elapsed videoblog # displays the time spent on videoblog
 ```
 
 ## Design goals
