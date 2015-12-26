@@ -9,28 +9,28 @@ class TestToselfService < Test::Unit::TestCase
       @now = DateTime.now
     end
     def given_a_toself()
-      @toself = ToselfService.new(ToselfLocalStore.new('test.log'))
+      @toself = Toself::Service.new(Toself::Store::Local.new('test.log'))
       @toself.reset!
     end
     def when_i_check_elapsed(key)
-      @elapsed = @toself.elapsed(ToselfServiceParams.new(key: key))
+      @elapsed = @toself.elapsed(Toself::Params.new(key: key))
     end
     def then_it_should_report(expected)
       @testcase.assert_equal( expected, @elapsed )
     end
     def i_start(key, at_in_words = nil)
       at = at_from_words(at_in_words)
-      @toself.start(ToselfServiceParams.new(key: key, msg: "some message", at: at))
+      @toself.start(Toself::Params.new(key: key, msg: "some message", at: at))
     end
     def i_stop(key, at_in_words = nil)
       at = at_from_words(at_in_words)
-      @toself.stop(ToselfServiceParams.new(key: key, msg: "some message", at: at))
+      @toself.stop(Toself::Params.new(key: key, msg: "some message", at: at))
     end
     def it_should_have_periods_for_key(num, key)
-      @testcase.assert_equal(num, @toself.periods(ToselfServiceParams.new(key: key)).length)
+      @testcase.assert_equal(num, @toself.periods(Toself::Params.new(key: key)).length)
     end
     def it_should_have_events_for_key(num, key)
-      @testcase.assert_equal(num, @toself.events(ToselfServiceParams.new(key: key)).length)
+      @testcase.assert_equal(num, @toself.events(Toself::Params.new(key: key)).length)
     end
     def at_from_words(at_in_words = nil)
       case at_in_words
