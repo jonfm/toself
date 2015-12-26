@@ -19,3 +19,17 @@ self edit <id>
 - ability to start and finish tasks
 - ability to log tasks and present an overview
 
+## Notes
+
+Running tests
+```
+bundle install --binstubs
+bin/testrb lib/test.rb
+```
+Running as a binfile
+```
+#!/usr/bin/env ruby
+# -*- mode: ruby -*-
+require "toself/runner"
+Toself::Runner.start
+```
