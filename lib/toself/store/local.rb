@@ -4,7 +4,9 @@ require 'date'
 class Toself
   class Store
     class Local
-      def initialize(file = 'log.json')
+      DEFAULT_FILESTORE = "#{ENV['HOME']}/.toself.log.json"
+
+      def initialize(file = DEFAULT_FILESTORE)
         @file = file
         if File.exist?(@file) 
           @log = JSON.parse(File.read(@file))
