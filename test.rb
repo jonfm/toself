@@ -9,10 +9,8 @@ class TestToselfService < Test::Unit::TestCase
       @now = DateTime.now
     end
     def given_a_toself()
-      given_a_log(Hash.new { |h, k| h[k] = [] })
-    end
-    def given_a_log(data)
-      @toself = ToselfService.new(data)
+      @toself = ToselfService.new(ToselfLocalStore.new('test.log'))
+      @toself.reset!
     end
     def when_i_check_elapsed(key)
       @elapsed = @toself.elapsed(ToselfServiceParams.new(key: key))
@@ -27,6 +25,12 @@ class TestToselfService < Test::Unit::TestCase
     def i_stop(key, at_in_words = nil)
       at = at_from_words(at_in_words)
       @toself.stop(ToselfServiceParams.new(key: key, msg: "some message", at: at))
+    end
+    def it_should_have_periods_for_key(num, key)
+      @testcase.assert_equal(num, @toself.periods(ToselfServiceParams.new(key: key)).length)
+    end
+    def it_should_have_events_for_key(num, key)
+      @testcase.assert_equal(num, @toself.events(ToselfServiceParams.new(key: key)).length)
     end
     def at_from_words(at_in_words = nil)
       case at_in_words
@@ -47,9 +51,16 @@ class TestToselfService < Test::Unit::TestCase
     scenario = ToselfScenario.new(self)
     scenario.given_a_toself
     scenario.i_start(:foo, :now)
+    scenario.it_should_have_events_for_key(1, :foo)
     scenario.i_stop(:foo, :one_minute_later)
+    scenario.it_should_have_events_for_key(2, :foo)
+    scenario.it_should_have_periods_for_key(1, :foo)
     scenario.i_start(:foo, :one_hour_later)
+    scenario.it_should_have_events_for_key(3, :foo)
+    scenario.it_should_have_periods_for_key(2, :foo)
     scenario.i_stop(:foo, :two_hours_later)
+    scenario.it_should_have_events_for_key(4, :foo)
+    scenario.it_should_have_periods_for_key(2, :foo)
     scenario.when_i_check_elapsed(:foo)
     scenario.then_it_should_report(60 + 1)
   end
