@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby -*-
 
+# Make sure the lib foder is in ruby's include path
 $:.unshift File.join(File.dirname(__FILE__), "../lib")
 require "toself/runner"
 Toself::Runner.start
